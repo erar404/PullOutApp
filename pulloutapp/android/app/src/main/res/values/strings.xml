@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">pulloutapp</string>
+    <string name="title_activity_main">pulloutapp</string>
+    <string name="package_name">ionic.pulloutapp</string>
+    <string name="custom_url_scheme">ionic.pulloutapp</string>
+</resources>
