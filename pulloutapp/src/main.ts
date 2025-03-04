@@ -34,6 +34,10 @@ import '@ionic/vue/css/palettes/dark.system.css';
 /* Theme variables */
 import './theme/variables.css';
 
+/*custom Imports */
+import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode'
+import { addRxPlugin } from 'rxdb';
+
 const app = createApp(App)
   .use(IonicVue)
   .use(router);
@@ -41,3 +45,7 @@ const app = createApp(App)
 router.isReady().then(() => {
   app.mount('#app');
 });
+
+if (import.meta.env.DEV == true) {
+  addRxPlugin(RxDBDevModePlugin); 
+} 
