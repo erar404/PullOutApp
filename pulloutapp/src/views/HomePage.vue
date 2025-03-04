@@ -23,6 +23,25 @@
 
 <script setup lang="ts">
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+// import {dbDexie} from '@/database/dexieDB'
+import { userCollection } from '@/models/user';
+
+// console.log(dbDexie)
+console.log('test')
+await userCollection.Users.insert({
+    secCode: "ARCORTON",
+    typeCode: "USER",
+    name: "ANNIE ROSE CORTON",
+    password: "2323213",
+    expirationDate: "1900-01-01T00:00:00",
+    graceLoginLeft: 5,
+    isActive: true
+});
+
+const docs = await userCollection.Users.find().exec();
+
+console.log(docs)
+
 </script>
 
 <style scoped>
