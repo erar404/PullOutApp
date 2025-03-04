@@ -34,6 +34,12 @@ import '@ionic/vue/css/palettes/dark.system.css';
 /* Theme variables */
 import './theme/variables.css';
 
+/* Custom Imports */
+import { Capacitor } from '@capacitor/core';
+import { JeepSqlite } from 'jeep-sqlite/dist/components/jeep-sqlite';
+import { defineCustomElements as pwaElements} from '@ionic/pwa-elements/loader';
+import SqliteService from './services/sqliteService'; 
+
 const app = createApp(App)
   .use(IonicVue)
   .use(router);
