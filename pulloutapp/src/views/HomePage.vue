@@ -2,14 +2,14 @@
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar>
-        <ion-title>Blank</ion-title>
+        <ion-title>Home</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Blank</ion-title>
+          <ion-title size="large">Pull-Out</ion-title>
         </ion-toolbar>
       </ion-header>
 
@@ -23,24 +23,20 @@
 
 <script setup lang="ts">
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
-// import {dbDexie} from '@/database/dexieDB'
-import { userCollection } from '@/models/user';
+import { axiosInstance } from '@/globalvars';
+
+// const res = await axiosInstance.get('/systemUser')
+// console.log(res)
+
+                                                                    
+// import { userCollection } from '@/models/user';
 
 // console.log(dbDexie)
-console.log('test')
-await userCollection.Users.insert({
-    secCode: "ARCORTON",
-    typeCode: "USER",
-    name: "ANNIE ROSE CORTON",
-    password: "2323213",
-    expirationDate: "1900-01-01T00:00:00",
-    graceLoginLeft: 5,
-    isActive: true
-});
+// console.log('test')
 
-const docs = await userCollection.Users.find().exec();
+// const docs = userCollection.Users.find().exec();
 
-console.log(docs)
+// console.log(docs)
 
 </script>
 

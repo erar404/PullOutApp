@@ -1,0 +1,1 @@
+import { RxJsonSchema } from 'rxdb';

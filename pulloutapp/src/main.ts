@@ -37,7 +37,9 @@ import './theme/variables.css';
 /*custom Imports */
 import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode'
 import { addRxPlugin } from 'rxdb';
+import { createDatabase } from './database';
 
+export const mobileDatabase = createDatabase();
 const app = createApp(App)
   .use(IonicVue)
   .use(router);
