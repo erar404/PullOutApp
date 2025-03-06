@@ -24,9 +24,18 @@
 <script setup lang="ts">
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
 import { axiosInstance } from '@/globalvars';
+import { RxCollectionBase } from 'rxdb';
+import { useDatabase } from '@/database';
 
-// const res = await axiosInstance.get('/systemUser')
-// console.log(res)
+
+const res = axiosInstance.get('/systemUser', {responseType: 'json'})
+const database = useDatabase();
+console.log(res)
+// const resJson = JSON.stringify(res)
+// // console.log(res)
+// database.users.importJSON(resJson)
+// // rxlocaldatabase.users.user.bulkUpsert(res).then(() => console.log('success')
+// console.log(database.users)
 
                                                                     
 // import { userCollection } from '@/models/user';

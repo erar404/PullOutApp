@@ -44,8 +44,12 @@ const app = createApp(App)
   .use(IonicVue)
   .use(router);
 
-router.isReady().then(() => {
-  app.mount('#app');
+// router.isReady().then(() => {
+//   app.mount('#app');
+// });
+
+mobileDatabase.then(db => {
+  app.use(db).mount('#app')
 });
 
 if (import.meta.env.DEV == true) {

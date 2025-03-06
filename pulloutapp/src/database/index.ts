@@ -15,10 +15,13 @@ import {
 import userSchema from '@/schemas/User.schema';
 import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode'
 import { RxDBLeaderElectionPlugin } from 'rxdb/plugins/leader-election';
+import { RxDBJsonDumpPlugin } from 'rxdb/plugins/json-dump';
+
 
 const KEY_DATABASE = Symbol('database');
 addRxPlugin(RxDBLeaderElectionPlugin);
 addRxPlugin(RxDBMigrationSchemaPlugin);
+addRxPlugin(RxDBJsonDumpPlugin);
 
 if (process.env.NODE_ENV === 'development') {
     // in dev-mode we add the dev-mode plugin
