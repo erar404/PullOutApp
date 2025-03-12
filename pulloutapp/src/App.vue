@@ -7,17 +7,7 @@
 <script setup lang="ts">
 import { IonApp, IonRouterOutlet } from '@ionic/vue';
 import { SplashScreen } from '@capacitor/splash-screen';
-
-// await SplashScreen.hide();
-
-// await SplashScreen.show({
-//   autoHide: false
-// })
-
-// await SplashScreen.show({
-//   showDuration: 2000,
-//   autoHide: true
-// })
+import MenuPage from './components/MenuPage.vue';
 
 </script>
 

@@ -14,7 +14,9 @@
       </ion-header>
 
       <div id="container">
-        <strong>Ready to create an app?</strong>
+        <strong>Home to do</strong>
+        <p>Saved scans</p>
+        <p>Upload History</p>
         <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
       </div>
     </ion-content>
@@ -22,21 +24,27 @@
 </template>
 
 <script setup lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonIcon, IonTab, IonTabBar } from '@ionic/vue';
+import { call, person, settings } from 'ionicons/icons';
 import { axiosInstance } from '@/globalvars';
 import { RxCollectionBase } from 'rxdb';
 import { useDatabase } from '@/database';
+import { defineComponent } from 'vue';
 
 
-const res = axiosInstance.get('/systemUser', {responseType: 'json'})
-const database = useDatabase();
-console.log(res)
+const onLoad = () => {
+  const res = axiosInstance.get('/systemUser', {responseType: 'json'})
+  const database = useDatabase();
+  console.log(res)
+}
+
+
+
 // const resJson = JSON.stringify(res)
 // // console.log(res)
 // database.users.importJSON(resJson)
 // // rxlocaldatabase.users.user.bulkUpsert(res).then(() => console.log('success')
 // console.log(database.users)
-
                                                                     
 // import { userCollection } from '@/models/user';
 
@@ -47,12 +55,14 @@ console.log(res)
 
 // console.log(docs)
 
+
+
 </script>
 
 <style scoped>
 #container {
   text-align: center;
-  
+
   position: absolute;
   left: 0;
   right: 0;

@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import HomePage from '../views/HomePage.vue'
+import LoginPage from '../views/LoginPage.vue'
+import MenuPage from '../components/MenuPage.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -8,9 +10,30 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/home'
   },
   {
-    path: '/home',
-    name: 'Home',
-    component: HomePage
+    path: '/login',
+    component: LoginPage
+  },
+  {
+    path: '/',
+    component: MenuPage,
+    children: [
+      {
+        path: '',
+        redirect: HomePage
+      },
+      {
+        path: '/home',
+        component: HomePage
+      },
+      {
+        path: '/saved',
+        component: import('../views/SavedPage.vue')
+      },
+      {
+        path: '/account',
+        component: import('../views/ProfilePage.vue')
+      }
+    ]
   }
 ]
 
