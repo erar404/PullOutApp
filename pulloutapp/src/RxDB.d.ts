@@ -11,6 +11,7 @@ export interface RxUserDocumentType {
     secCode: string;
     typeCode: string;
     passWord: string;
+    passwordDecrypted: string,
     expirationDate: string;
     graceLoginLeft: number;
     isActive: boolean;

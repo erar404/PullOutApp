@@ -19,6 +19,9 @@ const userSchema : RxJsonSchema<RxUserDocumentType> = {
         passWord: {
             type: 'string'
         },
+        passwordDecrypted: {
+            type: 'string'
+        },
         expirationDate: {
             type: 'string'
         },

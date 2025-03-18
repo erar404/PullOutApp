@@ -16,12 +16,15 @@ import userSchema from '@/schemas/User.schema';
 import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode'
 import { RxDBLeaderElectionPlugin } from 'rxdb/plugins/leader-election';
 import { RxDBJsonDumpPlugin } from 'rxdb/plugins/json-dump';
-
-
+import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder';
+import { removeRxDatabase } from 'rxdb';
+import { RxDBCleanupPlugin } from 'rxdb/plugins/cleanup';
+            
 const KEY_DATABASE = Symbol('database');
 addRxPlugin(RxDBLeaderElectionPlugin);
 addRxPlugin(RxDBMigrationSchemaPlugin);
 addRxPlugin(RxDBJsonDumpPlugin);
+addRxPlugin(RxDBQueryBuilderPlugin);
 
 if (process.env.NODE_ENV === 'development') {
     // in dev-mode we add the dev-mode plugin
@@ -30,6 +33,8 @@ if (process.env.NODE_ENV === 'development') {
     // await collectionDoc.remove();
     console.log('dev mode on')
     addRxPlugin(RxDBDevModePlugin);
+    addRxPlugin(RxDBCleanupPlugin)
+    removeRxDatabase('rgmclocaldb',  getRxStorageDexie());
   }
 
 
@@ -43,7 +48,9 @@ export async function createDatabase(): Promise<Plugin> {
         name: 'rgmclocaldb',
         storage: wrappedValidateAjvStorage ({
             storage : getRxStorageDexie()
-        })
+        }),
+        multiInstance: false,
+        cleanupPolicy: {}
     })
     console.log('DatabaseService: created database');
     (window as any).db = db; // write to window for debugging

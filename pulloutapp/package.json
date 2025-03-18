@@ -23,6 +23,7 @@
     "@capacitor/keyboard": "7.0.0",
     "@capacitor/splash-screen": "^7.0.0",
     "@capacitor/status-bar": "7.0.0",
+    "@ionic/storage": "^4.0.0",
     "@ionic/vue": "^8.0.0",
     "@ionic/vue-router": "^8.0.0",
     "axios": "^1.8.1",
@@ -32,6 +33,7 @@
     "socket.io-adapter": "^2.5.5",
     "vue": "^3.3.0",
     "vue-router": "^4.2.0",
+    "vuex": "^4.1.0",
     "ws": "^8.18.1"
   },
   "devDependencies": {
