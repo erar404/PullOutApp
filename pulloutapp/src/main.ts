@@ -34,10 +34,24 @@ import '@ionic/vue/css/palettes/dark.system.css';
 /* Theme variables */
 import './theme/variables.css';
 
+/*custom Imports */
+import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode'
+import { addRxPlugin } from 'rxdb';
+import { createDatabase } from './database';
+
+export const mobileDatabase = createDatabase();
 const app = createApp(App)
   .use(IonicVue)
   .use(router);
 
-router.isReady().then(() => {
-  app.mount('#app');
+// router.isReady().then(() => {
+//   app.mount('#app');
+// });
+
+mobileDatabase.then(db => {
+  app.use(db).mount('#app')
 });
+
+if (import.meta.env.DEV == true) {
+  addRxPlugin(RxDBDevModePlugin); 
+} 
