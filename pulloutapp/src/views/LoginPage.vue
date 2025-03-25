@@ -1,10 +1,13 @@
 <template>
     <ion-page>
         <ion-header>
-            <ion-toolbar color="transluscent">
+            <!-- <ion-toolbar color="transluscent">
                 <ion-title>Login</ion-title>
-            </ion-toolbar>
-            <ion-progress-bar type="indeterminate"></ion-progress-bar>
+            </ion-toolbar> -->
+            <!-- <ion-progress-bar v-if="isLoading" type="indeterminate"></ion-progress-bar> -->
+            <!-- <ion-loading> </ion-loading> -->
+            
+
         </ion-header>
         <ion-content>
             <div id="img-container">
@@ -12,16 +15,16 @@
             </div>
             <div id="container">
                 <p>
-                    <ion-input label="Username" class="input-box"></ion-input>
+                    <ion-input label="Username" class="input-box" v-model="username"></ion-input>
                 </p>
                 <p> 
-                    <ion-input label="Password" type="password" class="input-box"> 
+                    <ion-input label="Password" type="password" class="input-box" v-model="password"> 
                         <ion-input-password-toggle slot="end"> </ion-input-password-toggle>
                     </ion-input>
                 </p>
                 <p>
-                    <ion-button>Login </ion-button>
-                    <ion-button @click="goToHome('test')">Go to home</ion-button>
+                    <ion-button @click="loginAuthenticate">Login </ion-button>
+                    <ion-button href="/home">Go to home</ion-button>
                 </p>
             </div>
         </ion-content>
@@ -29,25 +32,47 @@
 </template>
 
 <script setup lang="ts">
-import { IonInput, IonInputPasswordToggle, IonAlert, IonButton, onIonViewDidEnter, alertController} from '@ionic/vue';
+import { 
+    IonInput, 
+    IonInputPasswordToggle, 
+    IonButton, 
+    alertController, 
+    loadingController,
+    IonPage,
+    IonContent,
+    IonTitle,
+    IonToolbar,
+    IonHeader,
+    IonProgressBar
+} from '@ionic/vue';
 import { onMounted, ref } from 'vue';
-import { logoVenmo } from 'ionicons/icons';
 import { useIonRouter } from "@ionic/vue";
 import { axiosInstance } from '@/globalvars';
-import { Storage } from '@ionic/storage';
 import { useDatabase } from '@/database';
+import { RxUserDocument } from '@/RxDB';
+import { tap } from 'rxjs/operators';
 
+// import { Storage } from '@ionic/storage';
 // const store = new Storage();
 // await store.create();
+var isLoading = ref(true);
+const username = ref("");
+const password = ref("");
+const database = useDatabase();
+const systemUsers =  ref<any[]>([]);
 
 
-onMounted(() => {
-    const database = useDatabase();
+onMounted(async () => {
     const userInstance = axiosInstance.get('/systemUser', {responseType: 'json'})
-    const storeInstance = axiosInstance.get('/systemUser', {responseType: 'json'})
+    const loading = await loadingController.create({
+        message: 'Loading Data. Internet Connection Needed...',
+    });
+    
+    const customerInstance = axiosInstance.get('/customer ', {responseType: 'json'})
 
+    loading.present()
+    // ---- start data loading from api -----
     userInstance.then(function (res) {
-        // console.log(typeof(res.data))
         const data = res.data
         console.log('systemuser-start')
         data.forEach((row: any) => { 
@@ -56,20 +81,49 @@ onMounted(() => {
                     secCode: row.secCode,
                     typeCode: row.typeCode,
                     passWord: row.passWord,
+                    passwordEncrypted: row.passwordEncrypted,
                     expirationDate: row.expirationDate,
                     isActive: row.isActive
                 })
             } 
         });
-        console.log('loading end')
     }).catch(function (error) {
         // handle error
-        console.log(error);
-        presentAlert('Login', 'Error while loading user data', 'Error Details (Please send a screenshot)'+ error)
+        presentAlert('Login', 'Error while loading user data', 'Error Details (Please send a screenshot): '+ error)
     })
 
+    
 
+    // ---- end loading data from api -----
+    isLoading.value = false;
+    console.log('loading done')
+    loading.dismiss();
+    
 })
+
+const loginAuthenticate = async (username: string, password: string) => {
+    database.users.find({
+        selector: {},
+        // sort: [{secCode: 'asc'}]
+    }).$.pipe(
+        tap(() => {
+          // debounce to simulate slow load
+          setTimeout(() => (isLoading.value = false), 1000);
+        })
+      ).subscribe((result: RxUserDocument[]) => {
+        console.log(result)
+        systemUsers.value = result;
+    })
+
+} 
+
+const showLoading = async () => {
+    const loading = await loadingController.create({
+        message: 'Loading Data. Internet Connection Needed...',
+    });
+
+    loading.present()
+}
 
 const presentAlert = async (header: string, subHeader: string, message: string ) => {
     const alert = await alertController.create({
@@ -80,27 +134,13 @@ const presentAlert = async (header: string, subHeader: string, message: string )
     });
 
     await alert.present();
-  };
-
-
-// const onLoad = async () => {
-        
-// }
-
-// onIonViewDidEnter()
-
-// const resJson = JSON.stringify(res)
-// // console.log(res)
-// database.users.importJSON(resJson)
-// // rxlocaldatabase.users.user.bulkUpsert(res).then(() => console.log('success')
-// console.log(database.users)
+};
 
 const ionRouter = useIonRouter();
 
 const OnClick = async (text: any) => {
     console.log('clicked')
 }
-
 
 const goToHome = (session: any) => {
     // ionRouter.push({
@@ -115,6 +155,7 @@ const goToHome = (session: any) => {
 
 
 <style>
+
 .input-box {
     text-align: left;
 }

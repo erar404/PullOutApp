@@ -27,11 +27,11 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/saved',
-        component: import('../views/SavedPage.vue')
+        component: () => import('../views/SavedPage.vue')
       },
       {
         path: '/account',
-        component: import('../views/ProfilePage.vue')
+        component: () =>import('../views/ProfilePage.vue')
       }
     ]
   }

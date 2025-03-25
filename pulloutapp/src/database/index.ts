@@ -13,7 +13,7 @@ import {
  } from '@/RxDB';
  
 import userSchema from '@/schemas/User.schema';
-import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode'
+import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode';
 import { RxDBLeaderElectionPlugin } from 'rxdb/plugins/leader-election';
 import { RxDBJsonDumpPlugin } from 'rxdb/plugins/json-dump';
 import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder';
@@ -35,6 +35,7 @@ if (process.env.NODE_ENV === 'development') {
     addRxPlugin(RxDBDevModePlugin);
     addRxPlugin(RxDBCleanupPlugin)
     removeRxDatabase('rgmclocaldb',  getRxStorageDexie());
+    console.log('cleanup complete')
   }
 
 
@@ -49,7 +50,7 @@ export async function createDatabase(): Promise<Plugin> {
         storage: wrappedValidateAjvStorage ({
             storage : getRxStorageDexie()
         }),
-        multiInstance: false,
+        multiInstance: true,
         cleanupPolicy: {}
     })
     console.log('DatabaseService: created database');
@@ -86,7 +87,7 @@ export async function createDatabase(): Promise<Plugin> {
         }).exec().then((has: RxUserDocument | null) => {
             if (has != null) {
                 alert('SecCode Already Exists');
-                throw new Error('SecCode ' + secCode + 'Already Exists')
+                throw new Error('SecCode ' + secCode + 'Already  Exists')
             }
             return db;
         });
